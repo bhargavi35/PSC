@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      font-family: "roboto";
+      font-size: 20px;
+    }
+    #studentsForm {
+      width: 400px;
+      height: 400px;
+      text-align: center;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      padding: 40px;
+      border-radius: 5px 5px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 30px;
+      text-transform: uppercase;
+      font-family: monospace;
+      color: #2b619e;
+    }
+
+    img {
+      height: 100px;
+      width: 100px;
+    }
+    #submit {
+      background-color: #0cb4fc;
+      border-radius: 9px;
+      color: #ffffff;
+      margin: 15px;
+      height: 40px;
+      width: 90px;
+      border-style: solid;
+      border-width: 0px;
+      margin: auto;
+      font-size: 20px;
+    }
+    button {
+      border-radius: 9px;
+      color: #ffffff;
+      margin: 15px;
+      height: 40px;
+      width: auto;
+      border-style: solid;
+      border-width: 0px;
+      /* margin: auto; */
+      font-size: 20px;
+      text-transform: uppercase;
+    }
+    a {
+      text-decoration: none;
+    }
+    .grp {
+      display: flex;
+      gap: 20px;
+    }
+    #navbar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+    label {
+      font-weight: 600;
+    }
+  </style>
+
+  <body>
+    <h1>STUDENT MANAGEMENT SYSTEM</h1>
+    <div class="grp">
+      <button>
+        <a href="./student.html">dashboard</a>
+      </button>
+      <div id="navbar"></div>
+    </div>
+
+    <div>
+      <form id="studentsForm" onsubmit="data(event)">
+        <label for="">Student Image</label>
+        <input type="text" id="image" placeholder="enter image url" />
+        <br /><br />
+        <label for="">Student Name</label>
+        <input type="text" id="name" placeholder="enter student name" />
+        <br />
+        <br />
+        <label for="">Enter Course</label>
+        <input type="text" id="course" placeholder="enter course" />
+        <br /><br />
+        <label for="">Unit</label>
+        <select id="unit">
+          <option value="unit-1">unit-1</option>
+          <option value="unit-2">unit-2</option>
+          <option value="unit-3">unit-3</option>
+          <option value="unit-4">unit-4</option>
+          <option value="unit-5">unit-5</option>
+        </select>
+        <br /><br />
+        <label for="">Batch</label>
+        <select id="batch">
+          <option value="FT WEB-17">FT WEB-17</option>
+          <option value="FT WEB-16">FT WEB-16</option>
+          <option value="FT WEB-15">FT WEB-15</option>
+          <option value="FT WEB-14">FT WEB-14</option>
+        </select>
+        <br /><br />
+        <input type="submit" id="submit" />
+      </form>
+    </div>
+  </body>
+</html>
+<script>
+  function list(i, n, c, u, b) {
+    this.image = i;
+    this.name = n;
+    this.course = c;
+    this.unit = u;
+    this.batch = b;
+  }
+
+  function data(e) {
+    e.preventDefault();
+    // console.log("inside");
+    let form = document.getElementById("studentsForm");
+    let img = form.image.value;
+    let name = form.name.value;
+    let course = form.course.value;
+    let unit = form.unit.value;
+    let batch = form.batch.value;
+
+    // console.log(img, name, course, unit, batch);
+
+    // let a = new list(img, name, course, unit, batch);
+
+    // let banu = JSON.parse(localStorage.getItem("info")) || [];
+    // banu.push(a);
+    // localStorage.setItem("info", JSON.stringify(banu));
+    // console.log(a);
+
+    if (name.length > 0 && img.length > 0) {
+      let a = new list(img, name, course, unit, batch);
+      let banu = JSON.parse(localStorage.getItem("info")) || [];
+      banu.push(a);
+      localStorage.setItem("info", JSON.stringify(banu));
+      console.log(a);
+    }
+    else{
+      alert("Please fill the details")
+    }
+  }
+
+  function count() {
+    let banu = JSON.parse(localStorage.getItem("info")) || [];
+    //console.log(banu)
+
+    let obj = {};
+
+    for (let i = 0; i < banu.length; i++) {
+      if (!obj[banu[i].batch]) {
+        obj[banu[i].batch] = 1;
+      } else {
+        obj[banu[i].batch] = obj[banu[i].batch] + 1;
+      }
+    }
+    console.log(obj);
+    for (let key in obj) {
+      let mem = key + ":" + obj[key];
+      let x = document.querySelector("#navbar");
+      let p = document.createElement("h3");
+      p.innerText = mem;
+      x.append(p);
+    }
+    // for (let i = 0; i < banu.length; i++) {
+    //   obj[banu[i].batch]++;
+    // }
+    // console.log(obj);
+  }
+  count();
+
+  function nav() {
+    let banu = JSON.parse(localStorage.getItem("info")) || [];
+    let navbar = document.getElementById("navbar");
+
+    banu.forEach(function (ele, index) {
+      //   console.log(ele);
+      // let box = document.createElement("div");
+
+      // let nam = document.createElement("h4");
+      // nam.innerText = ` ${ele.batch} ${banu.length}`;
+      // // nam.innerText = `FTWEB17 ${ele.batch} ${banu.length}`;;
+
+      // box.append(nam);
+      // navbar.append(box);
+    });
+  }
+  nav();
+</script>
